@@ -7,6 +7,10 @@ Version: 1.0
 Author: Your Name
 Author URI: https://example.com
 License: GPL2
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: orangefox-adblock-detector
+Requires at least: 6.0
+Requires PHP: 8.2
 */
 
 // This code prevents direct access to the plugin file
