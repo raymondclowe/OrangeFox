@@ -7,49 +7,41 @@ if (!defined('ABSPATH')) {
 // Add admin menu
 function orangefox_add_admin_menu() {
     add_menu_page(
-        'OrangeFox Settings',
-        'OrangeFox',
+        'OrangeFox AdBlock Stats',
+        'AdBlock Stats',
         'manage_options',
-        'orangefox-settings',
-        'orangefox_settings_page',
-        'dashicons-admin-generic',
+        'orangefox-stats',
+        'orangefox_stats_page',
+        'dashicons-chart-bar',
         99
     );
 }
 add_action('admin_menu', 'orangefox_add_admin_menu');
 
-// Settings page content
-function orangefox_settings_page() {
+// Stats page content
+function orangefox_stats_page() {
     ?>
     <div class="wrap">
-        <h1>OrangeFox Settings</h1>
-        <form method="post" action="options.php">
-            <?php
-            settings_fields('orangefox_options');
-            do_settings_sections('orangefox-settings');
-            submit_button();
-            ?>
-        </form>
+        <h1>OrangeFox AdBlock Statistics</h1>
+        <div id="orangefox-stats-container">
+            <!-- AdBlock statistics will be displayed here -->
+        </div>
     </div>
     <?php
 }
 
-// Register settings
-function orangefox_register_settings() {
-    register_setting('orangefox_options', 'orangefox_options');
-    add_settings_section('orangefox_main_section', 'Main Settings', 'orangefox_main_section_callback', 'orangefox-settings');
-    add_settings_field('orangefox_field_1', 'Field 1', 'orangefox_field_1_callback', 'orangefox-settings', 'orangefox_main_section');
+// Add dashboard widget
+function orangefox_add_dashboard_widget() {
+    wp_add_dashboard_widget(
+        'orangefox_dashboard_widget',
+        'AdBlock Usage Statistics',
+        'orangefox_dashboard_widget_content'
+    );
 }
-add_action('admin_init', 'orangefox_register_settings');
+add_action('wp_dashboard_setup', 'orangefox_add_dashboard_widget');
 
-// Section callback
-function orangefox_main_section_callback() {
-    echo '<p>Main settings for OrangeFox plugin.</p>';
-}
-
-// Field callback
-function orangefox_field_1_callback() {
-    $options = get_option('orangefox_options');
-    $value = isset($options['field_1']) ? $options['field_1'] : '';
-    echo "<input type='text' name='orangefox_options[field_1]' value='$value' />";
+// Dashboard widget content
+function orangefox_dashboard_widget_content() {
+    // Display AdBlock usage statistics
+    echo '<div id="orangefox-dashboard-stats"></div>';
 }
