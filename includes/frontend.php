@@ -17,7 +17,30 @@ add_action('wp', 'orangefox_frontend_init');
 
 // AJAX callback to record AdBlock status
 function orangefox_record_adblock() {
-    // Record AdBlock status in the database
-    // You'll need to implement the actual database interaction here
-    wp_die();
+    // Verify the AJAX request nonce for security
+    check_ajax_referer('orangefox_adblock_nonce', 'nonce');
+
+    // Get the AdBlock status from the POST data
+    $is_blocking = isset($_POST['is_blocking']) ? (bool)$_POST['is_blocking'] : false;
+
+    // Retrieve the current AdBlock statistics from the database
+    $stats = get_option('orangefox_adblock_stats');
+
+    // Update the statistics based on the AdBlock status
+    if ($is_blocking) {
+        // Increment the count for users with AdBlock
+        $stats['with_adblock']++;
+    } else {
+        // Increment the count for users without AdBlock
+        $stats['without_adblock']++;
+    }
+
+    // Update the last updated timestamp
+    $stats['last_updated'] = current_time('timestamp');
+
+    // Save the updated statistics back to the database
+    update_option('orangefox_adblock_stats', $stats);
+
+    // Send a success response back to the AJAX request
+    wp_send_json_success();
 }

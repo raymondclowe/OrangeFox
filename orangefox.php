@@ -33,18 +33,18 @@ function orangefox_enqueue_scripts() {
 // Hook the function to WordPress so it runs at the right time
 add_action('wp_enqueue_scripts', 'orangefox_enqueue_scripts');
 
-// Function that runs when the plugin is activated
-function orangefox_activate() {
-    // This is where you would create a database table to store visitor data
-    // The code for creating the table would go here
+// Function to initialize options for OrangeFox plugin
+function orangefox_init_options() {
+    // Check if the 'orangefox_adblock_stats' option doesn't exist
+    if (get_option('orangefox_adblock_stats') === false) {
+        // If it doesn't exist, add the option with initial values
+        add_option('orangefox_adblock_stats', array(
+            'with_adblock' => 0,          // Counter for visitors with adblock
+            'without_adblock' => 0,       // Counter for visitors without adblock
+            'last_updated' => current_time('timestamp')  // Timestamp of last update
+        ));
+    }
 }
-// Hook the activation function to WordPress
-register_activation_hook(__FILE__, 'orangefox_activate');
 
-// Function that runs when the plugin is deactivated
-function orangefox_deactivate() {
-    // This is where you would clean up any plugin data if necessary
-    // The code for cleaning up would go here
-}
-// Hook the deactivation function to WordPress
-register_deactivation_hook(__FILE__, 'orangefox_deactivate');
+// Hook the initialization function to WordPress admin_init action
+add_action('admin_init', 'orangefox_init_options');
