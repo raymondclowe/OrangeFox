@@ -18,7 +18,6 @@ function orangefox_add_admin_menu() {
 }
 add_action('admin_menu', 'orangefox_add_admin_menu');
 
-<?php
 // Function to display the stats page content
 function orangefox_stats_page() {
     // Get the AdBlock stats from the WordPress options
@@ -30,6 +29,7 @@ function orangefox_stats_page() {
     // Calculate the percentage of visitors using AdBlock
     $adblock_percentage = $total_visitors > 0 ? round(($stats['with_adblock'] / $total_visitors) * 100, 2) : 0;
 
+    // Start the HTML output
     ?>
     <div class="wrap">
         <h1>OrangeFox AdBlock Statistics</h1>
