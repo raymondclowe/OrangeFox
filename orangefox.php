@@ -2,7 +2,7 @@
 /*
 Plugin Name: OrangeFox
 Description: Enhances user experience tracking for site optimization.
-Version: 1.0
+Version: 1.1
 Author: Your Name
 */
 
@@ -89,13 +89,26 @@ class OrangeFox {
     }
 
     public function display_widget() {
+        // Get the data from the option
         $data = get_option($this->data_key);
-        $total = $data['a'] + $data['b'];
-        $a_percent = $total > 0 ? round(($data['a'] / $total) * 100, 2) : 0;
 
-        echo '<p>Total: ' . $total . '</p>';
-        echo '<p>A: ' . $data['a'] . ' (' . $a_percent . '%)</p>';
-        echo '<p>B: ' . $data['b'] . ' (' . (100 - $a_percent) . '%)</p>';
+        // Calculate the total number of ad impressions
+        $total = $data['a'] + $data['b'];
+
+        // Calculate the percentage of hidden ads
+        $hidden_percent = $total > 0 ? round(($data['a'] / $total) * 100, 2) : 0;
+
+        // Calculate the percentage of visible ads
+        $visible_percent = 100 - $hidden_percent;
+
+        // Display the total ad impressions
+        echo '<p>Total Ad Impressions: ' . $total . '</p>';
+
+        // Display the number and percentage of hidden ads
+        echo '<p>Hidden Ads: ' . $data['a'] . ' (' . $hidden_percent . '%)</p>';
+
+        // Display the number and percentage of visible ads
+        echo '<p>Visible Ads: ' . $data['b'] . ' (' . $visible_percent . '%)</p>';
     }
 
     // Function to inject the tracker (advertisement) into the page

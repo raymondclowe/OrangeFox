@@ -1,47 +1,61 @@
-# OrangeFox WordPress Plugin
+# OrangeFox Plugin
 
 ## Description
 
-OrangeFox is a WordPress plugin designed to detect and track the usage of ad-blocking software among your website visitors. It uses a non-intrusive method to gather statistics on how many of your users are employing ad blockers.
+The OrangeFox plugin enhances user experience tracking for site optimization by allowing you to display advertisements and track user interactions. It provides a dashboard widget to view metrics, as well as an admin configuration page to customize the advertisement settings.
 
 ## Features
 
-- Detects ad-blocking software usage
-- Tracks the number of visitors using and not using ad blockers
-- Provides a dashboard widget with usage statistics
-- Includes a configurable settings page for customization
-
-## How It Works
-
-1. The plugin adds a hidden element to your pages that mimics an advertisement.
-2. It then checks if this element is hidden or removed by ad-blocking software.
-3. The results are sent back to your WordPress site and stored anonymously.
-4. Statistics are displayed in a dashboard widget for easy viewing.
+- User Experience Tracking: Tracks interactions with displayed advertisements.
+- Dashboard Widget: Displays metrics for user interactions in the WordPress dashboard.
+- Admin Configuration: Allows configuration of banner and click URLs for advertisements through an admin page.
 
 ## Installation
 
-1. Upload the `orangefox` folder to your `/wp-content/plugins/` directory.
-2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. Configure the plugin settings under the 'OrangeFox' option in your WordPress settings menu.
+1. Download the OrangeFox plugin files.
+2. Upload the orangefox.php file to the /wp-content/plugins/ directory.
+3. Activate the plugin through the 'Plugins' menu in WordPress.
+4. Configure the plugin settings via the 'OrangeFox' settings page in the WordPress admin.
+
+## Usage
+
+Once activated, you can access the OrangeFox configuration page under the Settings menu in the WordPress admin. Here you can set the banner image URL and the click destination URL. The plugin will inject the advertisement into the footer of your site.
+
+## Code Overview
+
+### orangefox.php
+
+- Plugin Header: Defines the plugin name, description, version, and author.
+- Initialization: Sets up options for tracking data and configuration on plugin activation.
+- Admin Menu: Adds an options page to configure plugin settings.
+- Widget Setup: Adds a dashboard widget to display user interaction metrics.
+- Tracker Injection: Injects the advertisement HTML into the footer.
+- AJAX Handling: Processes user interaction data via AJAX requests.
+
+### adserver-orangefox.js
+
+- Interaction Tracking: Sends a POST request to update metrics based on whether the advertisement is displayed or hidden.
 
 ## Configuration
 
-In the settings page, you can customize:
-- The text used in the hidden "advertisement" element
-- The URL linked in the hidden element
+### Admin Settings
 
-## Privacy Considerations
+- Banner Image URL: The URL for the advertisement image.
+- Click Destination URL: The URL to redirect users when they click on the advertisement.
 
-This plugin does not collect any personal data. It only tracks anonymous statistics about ad-blocker usage on your site. However, you should mention the use of this tracking in your site's privacy policy to maintain transparency with your users.
+### Metrics Display
 
-## Legal Notice
+The dashboard widget displays:
 
-While this plugin is designed to be discreet to avoid being blocked by ad-blocking software, it is intended to be used ethically and legally. Always ensure that your use of this plugin complies with all relevant laws and regulations in your jurisdiction, particularly those concerning user privacy and data collection.
+- Total Interactions: Sum of all interactions.
+- A Interactions: Count and percentage of interactions for option A.
+- B Interactions: Count and percentage of interactions for option B.
 
-## Support
+## Contributing
 
-For support, feature requests, or bug reports, please open an issue on the plugin's GitHub repository.
+Feel free to contribute to the OrangeFox plugin by submitting issues or pull requests on the GitHub repository.
 
 ## License
 
-This plugin is released under the GPL v2 or later license.
+This plugin is open-source and available under the GNU General Public License.
+
