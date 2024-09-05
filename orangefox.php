@@ -2,7 +2,7 @@
 /*
 Plugin Name: OrangeFox
 Description: Enhances user experience tracking for site optimization.
-Version: 1.1
+Version: 1.2
 Author: Your Name
 */
 
@@ -116,17 +116,22 @@ class OrangeFox {
         // Get the configuration options from the database
         $config = get_option($this->config_key);
 
+        // Create a div with id "ad" to wrap the advertisement
+        echo '<div id="ad">';
+
         // Output the HTML for the advertisement
 
         // Create a link with an image inside
-        echo '<a href="' . esc_url($config['click_url']) . '">';
-        
+        echo '<a class="ad" href="' . esc_url($config['click_url']) . '">';
+
         // Display the banner image
-        echo '<img src="' . esc_url($config['banner_url']) . '" alt="Advertisement">';
-        
+        echo '<img class="banner" src="' . esc_url($config['banner_url']) . '" alt="Advertisement">';
+
         // Close the link tag
         echo '</a>';
-        
+
+        // Close the div tag
+        echo '</div>';
       
     }
 

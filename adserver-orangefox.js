@@ -1,11 +1,22 @@
-// This function inserts the adsense or other advertising block to the page
+// Version: 1.2
+// This function checks for ad elements and updates metrics if any are hidden
 (function($) {
     $(document).ready(function() {
+        // Wait for 1 second before checking
         setTimeout(function() {
-            var isA = $('#advertising-div-ads-go-here').is(':hidden');
+            // Check if any of the ad elements are hidden
+            // Check if the ad div is hidden
+            var isDivHidden = $('#ad').is(':hidden');
+            var isLinkHidden = $('a.ad').is(':hidden');
+            var isImgHidden = $('img.ad').is(':hidden');
+            
+            // If any of the ad elements are hidden, set isHidden to true
+            var isHidden = isDivHidden || isLinkHidden || isImgHidden;
+            
+            // Send an AJAX request to update metrics
             $.post(orangeFox.ajaxurl, {
                 action: 'update_metrics',
-                is_a: isA
+                is_hidden: isHidden
             });
         }, 1000);
     });
