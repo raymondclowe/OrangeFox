@@ -1,4 +1,4 @@
-// Version: 1.2
+// Version: 1.3
 // This function checks for ad elements and updates metrics if any are hidden
 (function($) {
     $(document).ready(function() {

@@ -1,14 +1,23 @@
 <?php
 /*
 Plugin Name: OrangeFox
+Plugin URI: https://example.com/orangefox
 Description: Enhances user experience tracking for site optimization.
-Version: 1.2
+Version: 1.3
 Author: Your Name
+Author URI: https://example.com
+License: GPL v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: orangefox
+Domain Path: /languages
 */
 
+// If this file is called directly, abort.
 if (!defined('ABSPATH')) {
     exit;
 }
+
+
 
 class OrangeFox {
     private $data_key = 'of_metrics';
@@ -88,29 +97,46 @@ class OrangeFox {
         wp_add_dashboard_widget('orangefox_widget', 'OrangeFox Metrics', array($this, 'display_widget'));
     }
 
-    public function display_widget() {
-        // Get the data from the option
-        $data = get_option($this->data_key);
+        public function display_widget() {
+            // Get the data from the option
+            $data = get_option($this->data_key);
 
-        // Calculate the total number of ad impressions
-        $total = $data['a'] + $data['b'];
+            // Calculate the total number of ad impressions
+            $total = $data['a'] + $data['b'];
 
-        // Calculate the percentage of hidden ads
-        $hidden_percent = $total > 0 ? round(($data['a'] / $total) * 100, 2) : 0;
+            // Calculate the percentage of hidden ads
+            $hidden_percent = $total > 0 ? round(($data['a'] / $total) * 100, 2) : 0;
 
-        // Calculate the percentage of visible ads
-        $visible_percent = 100 - $hidden_percent;
+            // Calculate the percentage of visible ads
+            $visible_percent = 100 - $hidden_percent;
 
-        // Display the total ad impressions
-        echo '<p>Total Ad Impressions: ' . $total . '</p>';
+            // Display the total ad impressions
+            echo '<p>Total Ad Impressions: ' . $total . '</p>';
 
-        // Display the number and percentage of hidden ads
-        echo '<p>Hidden Ads: ' . $data['a'] . ' (' . $hidden_percent . '%)</p>';
+            // Display the number and percentage of hidden ads
+            echo '<p>Hidden Ads: ' . $data['a'] . ' (' . $hidden_percent . '%)</p>';
 
-        // Display the number and percentage of visible ads
-        echo '<p>Visible Ads: ' . $data['b'] . ' (' . $visible_percent . '%)</p>';
-    }
+            // Display the number and percentage of visible ads
+            echo '<p>Visible Ads: ' . $data['b'] . ' (' . $visible_percent . '%)</p>';
 
+            // Add a reset button
+            echo '<form method="post">';
+            echo '<input type="submit" name="reset_counters" value="Reset Counters">';
+            echo '</form>';
+
+            // Check if the reset button was clicked
+            if (isset($_POST['reset_counters'])) {
+                // Reset both counters to 0
+                $data['a'] = 0;
+                $data['b'] = 0;
+
+                // Save the updated data
+                update_option($this->data_key, $data);
+
+                // Refresh the page to show updated counters
+                echo '<meta http-equiv="refresh" content="0">';
+            }
+        }
     // Function to inject the tracker (advertisement) into the page
     public function inject_tracker() {
         // Get the configuration options from the database
