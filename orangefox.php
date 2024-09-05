@@ -3,7 +3,7 @@
 Plugin Name: OrangeFox
 Plugin URI: https://example.com/orangefox
 Description: Enhances user experience tracking for site optimization.
-Version: 1.3
+Version: 1.4
 Author: Your Name
 Author URI: https://example.com
 License: GPL v2 or later
@@ -27,7 +27,7 @@ class OrangeFox {
         register_activation_hook(__FILE__, array($this, 'initialize'));
         add_action('admin_menu', array($this, 'setup_admin'));
         add_action('wp_dashboard_setup', array($this, 'setup_widget'));
-        add_action('wp_footer', array($this, 'inject_tracker'));
+        add_action('the_content', array($this, 'inject_tracker'));
         add_action('wp_enqueue_scripts', array($this, 'load_resources'));
         add_action('wp_ajax_update_metrics', array($this, 'process_data'));
         add_action('wp_ajax_nopriv_update_metrics', array($this, 'process_data'));

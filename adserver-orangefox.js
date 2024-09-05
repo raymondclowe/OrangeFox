@@ -1,4 +1,4 @@
-// Version: 1.3
+// Version: 1.4
 // This function checks for ad elements and updates metrics if any are hidden
 (function($) {
     $(document).ready(function() {
@@ -8,7 +8,7 @@
             // Check if the ad div is hidden
             var isDivHidden = $('#ad').is(':hidden');
             var isLinkHidden = $('a.ad').is(':hidden');
-            var isImgHidden = $('img.ad').is(':hidden');
+            var isImgHidden = $('img.banner').is(':hidden');
             
             // If any of the ad elements are hidden, set isHidden to true
             var isHidden = isDivHidden || isLinkHidden || isImgHidden;
