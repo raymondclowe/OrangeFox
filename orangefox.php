@@ -25,11 +25,15 @@ class OrangeFox {
     }
 
     public function initialize() {
+        // Check if the data option exists
         if (!get_option($this->data_key)) {
+            // If not, add the option with default values
             add_option($this->data_key, array('a' => 0, 'b' => 0));
         }
+        // Check if the config option exists
         if (!get_option($this->config_key)) {
-            add_option($this->config_key, array('text' => 'Special Offer', 'link' => 'https://example.com'));
+            // If not, add the option with default banner and click URLs
+            add_option($this->config_key, array('banner_url' => 'https://example.com/banner.jpg', 'click_url' => 'https://example.com'));
         }
     }
 
@@ -38,19 +42,25 @@ class OrangeFox {
     }
 
     public function config_page() {
+        // Check if the current user has the 'manage_options' capability
         if (!current_user_can('manage_options')) {
             return;
         }
 
+        // Check if the form has been submitted
         if (isset($_POST['submit'])) {
+            // Create an array to store the configuration
             $config = array(
-                'text' => sanitize_text_field($_POST['text']),
-                'link' => esc_url_raw($_POST['link'])
+                'banner_url' => esc_url_raw($_POST['banner_url']),
+                'click_url' => esc_url_raw($_POST['click_url'])
             );
+            // Update the option in the database
             update_option($this->config_key, $config);
+            // Display a success message
             echo '<div class="updated"><p>Configuration updated.</p></div>';
         }
 
+        // Get the current configuration from the database
         $config = get_option($this->config_key);
         ?>
         <div class="wrap">
@@ -58,12 +68,12 @@ class OrangeFox {
             <form method="post">
                 <table class="form-table">
                     <tr>
-                        <th><label for="text">Tracker Text</label></th>
-                        <td><input type="text" id="text" name="text" value="<?php echo esc_attr($config['text']); ?>" class="regular-text"></td>
+                        <th><label for="banner_url">Banner Image URL</label></th>
+                        <td><input type="url" id="banner_url" name="banner_url" value="<?php echo esc_url($config['banner_url']); ?>" class="regular-text"></td>
                     </tr>
                     <tr>
-                        <th><label for="link">Tracker Link</label></th>
-                        <td><input type="url" id="link" name="link" value="<?php echo esc_url($config['link']); ?>" class="regular-text"></td>
+                        <th><label for="click_url">Click Destination URL</label></th>
+                        <td><input type="url" id="click_url" name="click_url" value="<?php echo esc_url($config['click_url']); ?>" class="regular-text"></td>
                     </tr>
                 </table>
                 <p class="submit">
@@ -88,9 +98,23 @@ class OrangeFox {
         echo '<p>B: ' . $data['b'] . ' (' . (100 - $a_percent) . '%)</p>';
     }
 
+    // Function to inject the tracker (advertisement) into the page
     public function inject_tracker() {
+        // Get the configuration options from the database
         $config = get_option($this->config_key);
-        echo '<ins class="adsbygoogle" id="advertising-div-ads-go-here" style="display:block;"><i>Advertisement</i><br><a href="' . esc_url($config['link']) . '">' . esc_html($config['text']) . '</a></ins>';
+
+        // Output the HTML for the advertisement
+
+        // Create a link with an image inside
+        echo '<a href="' . esc_url($config['click_url']) . '">';
+        
+        // Display the banner image
+        echo '<img src="' . esc_url($config['banner_url']) . '" alt="Advertisement">';
+        
+        // Close the link tag
+        echo '</a>';
+        
+      
     }
 
     public function load_resources() {
